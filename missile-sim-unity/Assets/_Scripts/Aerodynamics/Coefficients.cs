@@ -82,7 +82,7 @@ public class Coefficients
         AirfoilConfig adjustedConfig = AirfoilConfig.Instantiate(config);
         float theta = Mathf.Acos(2 * config.flapFraction - 1);
         float tau = 1 - (theta - Mathf.Sin(theta)) / MathF.PI;
-        float correction = 0.8f + ((Mathf.Rad2Deg * flapAngle - 10f) / 50f) * -0.4f;
+        float correction = Mathf.Lerp(0.8f, 0.4f, (Mathf.Abs(flapAngle) * Mathf.Rad2Deg - 10) / 50);
 
         float correctedLiftSlope = config.liftSlope * (aspectRatio / (aspectRatio + 2 * (aspectRatio + 4) / (aspectRatio + 2)));
         float deltaClSlope = correctedLiftSlope * tau * correction * flapAngle;
