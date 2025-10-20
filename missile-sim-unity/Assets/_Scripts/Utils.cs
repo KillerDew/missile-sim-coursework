@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 
 public static class Utils
-{
+{   
+    /*
     public static bool isAllDigits(string s)
     {
         foreach (char c in s)
@@ -97,4 +98,5 @@ public static class Utils
         return 0;
 
     }
+    */
 }

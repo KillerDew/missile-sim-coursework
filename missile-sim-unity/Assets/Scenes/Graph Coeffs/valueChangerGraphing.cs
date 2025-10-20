@@ -35,13 +35,29 @@ public class valueChangerGraphing : MonoBehaviour
     }
     public void onLiftSlopeChange(string str)
     {
-        float val = Utils.resolveStringValue(str);
+        float val;
+        try
+        {
+            val = float.Parse(str);
+        }
+        catch
+        {
+            val = 2 * Mathf.PI;
+        }
         changingConfig.liftSlope = val;
         liftSlopeInputField.text = Convert.ToString(Mathf.Round(val/Mathf.PI*100)/100) + "π";
     }
     public void onZeroAoaChange(string str)
     {
-        float val = float.Parse(str);
+        float val;
+        try
+        {
+            val = float.Parse(str);
+        }
+        catch
+        {
+            val = 0f;
+        }
         changingConfig.zeroLiftAoa_deg = val;
         zeroAoaInputField.text = Convert.ToString(Mathf.Round(val*100)/100) + "°";
         zeroAoaRadText.text = Convert.ToString(Mathf.Round(val * Mathf.Deg2Rad / Mathf.PI * 100) / 100) + "π rad";
@@ -49,7 +65,7 @@ public class valueChangerGraphing : MonoBehaviour
     public void onSkinDragChange(float val)
     {
         changingConfig.skinDrag = val;
-        skinDragValueText.text = Convert.ToString(val);
+        skinDragValueText.text = Convert.ToString(Mathf.Round(val*100)/100);
     }
     void Start()
     {
