@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AirfoilConfig", menuName = "Scriptable Objects/AirfoilConfig")]
@@ -44,7 +45,17 @@ public class AirfoilConfig : ScriptableObject
     {
         return a.skinDrag == b.skinDrag && a.flapFraction == b.flapFraction && a.zeroLiftAoa == b.zeroLiftAoa && a.stallAngleHigh == b.stallAngleHigh && a.stallAngleLow == b.stallAngleLow && a.liftSlope == b.liftSlope;
     }
-    public static bool operator !=(AirfoilConfig a, AirfoilConfig b) {
+    public static bool operator !=(AirfoilConfig a, AirfoilConfig b)
+    {
         return !(a == b);
+    }
+
+    public override bool Equals(object a)
+    {
+        return a is AirfoilConfig && (AirfoilConfig)a == this;
+    }
+    public override int GetHashCode()
+    {
+        return this.zeroLiftAoa.GetHashCode() ^ this.skinDrag.GetHashCode() ^ this.flapFraction.GetHashCode() ^ this.stallAngleHigh.GetHashCode() ^ this.stallAngleLow.GetHashCode() ^ this.liftSlope.GetHashCode();
     }
 }
