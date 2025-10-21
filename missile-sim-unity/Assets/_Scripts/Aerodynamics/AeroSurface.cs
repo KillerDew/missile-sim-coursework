@@ -84,14 +84,17 @@ public class AeroSurface : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        Gizmos.matrix = transform.localToWorldMatrix;
+
+
         float nonFlappedHeight = height * (1 - flapFraction);
-        Vector3 offsetNoFlap = new(height/2 - nonFlappedHeight / 2, 0f, 0f);
-        Gizmos.color = new Color(110, 186, 212, 120) / 255f;
-        Gizmos.DrawCube(transform.position + offsetNoFlap, new Vector3(nonFlappedHeight, 0.1f, width));
+        Vector3 offsetNoFlap = (height / 2 - nonFlappedHeight / 2) * transform.right / Vector3.Dot(transform.right, transform.lossyScale);
+        Gizmos.color = new Color(110, 186, 212, 60) / 255f;
+        Gizmos.DrawCube(offsetNoFlap, new Vector3(nonFlappedHeight/transform.lossyScale.x, 0.1f/transform.lossyScale.y, width/transform.lossyScale.z));
 
         float flappedHeight = height * flapFraction;
-        Vector3 offsetFlap = new(height / 2 - flappedHeight / 2, 0f, 0f);
+        Vector3 offsetFlap = (height / 2 - flappedHeight / 2) * transform.right / Vector3.Dot(transform.right, transform.lossyScale);;
         Gizmos.color = new Color(235, 129, 73, 120) / 255f;
-        Gizmos.DrawCube(transform.position - offsetFlap, new Vector3(flappedHeight, 0.1f, width));
+        Gizmos.DrawCube(-offsetFlap, (new Vector3(flappedHeight/transform.lossyScale.x, 0.1f/transform.lossyScale.y, width/transform.lossyScale.z)));
     }
 }
