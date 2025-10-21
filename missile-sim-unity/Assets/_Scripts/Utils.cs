@@ -4,8 +4,8 @@ using UnityEngine;
 
 public struct biVector3
 {
-    Vector3 p;
-    Vector3 q;
+    public Vector3 p;
+    public Vector3 q;
     public biVector3(Vector3 force, Vector3 torque)
     {
         this.p = force;

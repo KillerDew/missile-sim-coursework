@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e98b9e79597b649a57f826538f227b, type: 3}
+  m_Name: 3D wing only test
+  m_EditorClassIdentifier: Assembly-CSharp::AirfoilConfig
+  skinDrag: 0.02
+  zeroLiftAoa_deg: 0
+  liftSlope: 3.7699113
+  stallHigh_deg: 1.8849556
+  stallLow_deg: -1.884956
