@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class AeroSurface : MonoBehaviour
@@ -6,7 +7,6 @@ public class AeroSurface : MonoBehaviour
     [Header("Dimensions")]
     public float width = 1.0f;
     public float height = 1.0f;
-    public Vector3 rotationOffset = Vector3.zero;
 
     [Header("Properties")]
     [Range(0f, 1f)]
@@ -16,19 +16,6 @@ public class AeroSurface : MonoBehaviour
 
     public AirfoilConfig airfoilConfig;
     Rigidbody RB;
-
-    void Start()
-    {
-        RB = GetComponentInParent<Rigidbody>();
-        //RB.AddForce(Vector3.right * 1000);
-    }
-    void FixedUpdate()
-    {
-        Vector3 airVel = -RB.GetPointVelocity(transform.position);
-        biVector3 forces = calculateForces(airVel, 1.225f, transform.position);
-        if (forces.p.magnitude >= 1e-2) RB.AddForce(forces.p);
-        if (forces.q.magnitude >= 1e-2) RB.AddTorque(forces.q);
-    }
 
     public biVector3 calculateForces(Vector3 worldAirVelocity, float airdensity, Vector3 parentPosition)
     {
@@ -84,17 +71,19 @@ public class AeroSurface : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        // draw in the object's local space so the matrix handles position/rotation/scale
         Gizmos.matrix = transform.localToWorldMatrix;
 
-
+        // sizes in local space (the matrix will apply the lossyScale)
         float nonFlappedHeight = height * (1 - flapFraction);
-        Vector3 offsetNoFlap = (height / 2 - nonFlappedHeight / 2) * transform.right / Vector3.Dot(transform.right, transform.lossyScale);
-        Gizmos.color = new Color(110, 186, 212, 60) / 255f;
-        Gizmos.DrawCube(offsetNoFlap, new Vector3(nonFlappedHeight/transform.lossyScale.x, 0.1f/transform.lossyScale.y, width/transform.lossyScale.z));
+        // center offset along local +X (right) for the non-flapped section
+        Vector3 offsetNoFlap = new Vector3((height / 2f - nonFlappedHeight / 2f), 0f, 0f);
+        Gizmos.color = new Color(110f / 255f, 186f / 255f, 212f / 255f, 60f / 255f);
+        Gizmos.DrawCube(offsetNoFlap, new Vector3(nonFlappedHeight, 0.1f, width));
 
         float flappedHeight = height * flapFraction;
-        Vector3 offsetFlap = (height / 2 - flappedHeight / 2) * transform.right / Vector3.Dot(transform.right, transform.lossyScale);;
-        Gizmos.color = new Color(235, 129, 73, 120) / 255f;
-        Gizmos.DrawCube(-offsetFlap, (new Vector3(flappedHeight/transform.lossyScale.x, 0.1f/transform.lossyScale.y, width/transform.lossyScale.z)));
+        Vector3 offsetFlap = new Vector3((height / 2f - flappedHeight / 2f), 0f, 0f);
+        Gizmos.color = new Color(235f / 255f, 129f / 255f, 73f / 255f, 120f / 255f);
+        Gizmos.DrawCube(-offsetFlap, new Vector3(flappedHeight, 0.1f, width));
     }
 }
