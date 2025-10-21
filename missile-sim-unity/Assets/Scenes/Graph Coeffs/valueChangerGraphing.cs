@@ -24,7 +24,7 @@ public class valueChangerGraphing : MonoBehaviour
     public void onFlapFracChange(float val)
     {
         val = val / 20;
-        changingConfig.flapFraction = val;
+        graphingScript.flapFraction = val;
         flapFractionValueText.text = Convert.ToString(val);
     }
     public void onFlapAngleChange(float val)
@@ -69,7 +69,7 @@ public class valueChangerGraphing : MonoBehaviour
     }
     void Start()
     {
-        onFlapFracChange(changingConfig.flapFraction * 20);
+        onFlapFracChange(graphingScript.flapFraction * 20);
         onFlapAngleChange(graphingScript.flapAngle * Mathf.Rad2Deg);
         onLiftSlopeChange(Convert.ToString(changingConfig.liftSlope));
         onZeroAoaChange(Convert.ToString(changingConfig.zeroLiftAoa_deg));

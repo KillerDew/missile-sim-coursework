@@ -4,9 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AirfoilConfig", menuName = "Scriptable Objects/AirfoilConfig")]
 public class AirfoilConfig : ScriptableObject
 {
-    [Header("Dimensional Properties")]
-    [Range(0, 1)]
-    public float flapFraction;
 
     [Header("Aerodynamic Behaviour")]
     public float skinDrag = 0.02f;
@@ -43,7 +40,7 @@ public class AirfoilConfig : ScriptableObject
 
     public static bool operator ==(AirfoilConfig a, AirfoilConfig b)
     {
-        return a.skinDrag == b.skinDrag && a.flapFraction == b.flapFraction && a.zeroLiftAoa == b.zeroLiftAoa && a.stallAngleHigh == b.stallAngleHigh && a.stallAngleLow == b.stallAngleLow && a.liftSlope == b.liftSlope;
+        return a.skinDrag == b.skinDrag && a.zeroLiftAoa == b.zeroLiftAoa && a.stallAngleHigh == b.stallAngleHigh && a.stallAngleLow == b.stallAngleLow && a.liftSlope == b.liftSlope;
     }
     public static bool operator !=(AirfoilConfig a, AirfoilConfig b)
     {
@@ -56,6 +53,6 @@ public class AirfoilConfig : ScriptableObject
     }
     public override int GetHashCode()
     {
-        return this.zeroLiftAoa.GetHashCode() ^ this.skinDrag.GetHashCode() ^ this.flapFraction.GetHashCode() ^ this.stallAngleHigh.GetHashCode() ^ this.stallAngleLow.GetHashCode() ^ this.liftSlope.GetHashCode();
+        return this.zeroLiftAoa.GetHashCode() ^ this.skinDrag.GetHashCode() ^ this.stallAngleHigh.GetHashCode() ^ this.stallAngleLow.GetHashCode() ^ this.liftSlope.GetHashCode();
     }
 }

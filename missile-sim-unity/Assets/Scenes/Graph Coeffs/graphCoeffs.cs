@@ -6,6 +6,7 @@ public class graphCoeffs : MonoBehaviour
 {
     public AirfoilConfig config;
     public float flapAngle = 0f;
+    public float flapFraction = 0.2f;
     public int sampleSize = 500;
 
     public LineChart Liftchart;
@@ -71,7 +72,7 @@ public class graphCoeffs : MonoBehaviour
             for (int i = 0; i < sampleSize; i++)
             {
                 x += difference;
-                y = Coefficients.getCoefficients((float)x * Mathf.Deg2Rad, config, flapAngle, 4f);
+                y = Coefficients.getCoefficients((float)x * Mathf.Deg2Rad, config, flapAngle, flapFraction, 4f);
 
                 liftSerie.AddXYData(x, y.x);
                 dragSerie.AddXYData(x, y.y);

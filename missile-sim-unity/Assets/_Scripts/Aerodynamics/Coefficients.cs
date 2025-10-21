@@ -39,7 +39,7 @@ public class Coefficients
         return coeffs;
     }
 
-    static Vector3 getCoefficientsStall(float alpha, AirfoilConfig config, float flapAngle, float aspectRatio)
+    static Vector3 getCoefficientsStall(float alpha, AirfoilConfig config, float flapAngle, float flapFraction, float aspectRatio)
     {
         // Linear interpolates induced alpha at moment of stall to 0 at +- 90deg
         float inducedAlpha;
@@ -76,18 +76,18 @@ public class Coefficients
         Vector3 coeffs = new(liftCoefficient, dragCoefficient, momentCoefficient);
         return coeffs;
     }
-    static public Vector3 getCoefficients(float alpha, AirfoilConfig config, float flapAngle, float aspectRatio)
+    static public Vector3 getCoefficients(float alpha, AirfoilConfig config, float flapAngle, float flapFraction, float aspectRatio)
     {
         // adjust constants
         AirfoilConfig adjustedConfig = AirfoilConfig.Instantiate(config);
-        float theta = Mathf.Acos(2 * config.flapFraction - 1);
+        float theta = Mathf.Acos(2 * flapFraction - 1);
         float tau = 1 - (theta - Mathf.Sin(theta)) / MathF.PI;
         float correction = Mathf.Lerp(0.8f, 0.4f, (Mathf.Abs(flapAngle) * Mathf.Rad2Deg - 10) / 50);
 
         float correctedLiftSlope = config.liftSlope * (aspectRatio / (aspectRatio + 2 * (aspectRatio + 4) / (aspectRatio + 2)));
         float deltaClSlope = correctedLiftSlope * tau * correction * flapAngle;
 
-        float liftMaxFraction = Mathf.Clamp(1 - 0.5f * (config.flapFraction - 0.1f) / 0.3f, 0, 1f);
+        float liftMaxFraction = Mathf.Clamp(1 - 0.5f * (flapFraction - 0.1f) / 0.3f, 0, 1f);
 
         float ClMax = correctedLiftSlope * (config.stallAngleHigh - config.zeroLiftAoa) + deltaClSlope * liftMaxFraction;
         float ClMin = correctedLiftSlope * (config.stallAngleLow - config.zeroLiftAoa) + deltaClSlope * liftMaxFraction;
@@ -120,7 +120,7 @@ public class Coefficients
             if (alpha > paddedStallHigh || alpha < paddedStallLow)
             {
                 // No blending is required
-                return getCoefficientsStall(alpha, adjustedConfig, flapAngle, aspectRatio);
+                return getCoefficientsStall(alpha, adjustedConfig, flapAngle, flapFraction, aspectRatio);
             }
             else
             {
@@ -128,14 +128,14 @@ public class Coefficients
                 if (alpha > adjustedConfig.stallAngleHigh)
                 {
                     Vector3 preStall = getCoefficientsLowAoA(adjustedConfig.stallAngleHigh, adjustedConfig, flapAngle, aspectRatio);
-                    Vector3 postStall = getCoefficientsStall(paddedStallHigh, adjustedConfig, flapAngle, aspectRatio);
+                    Vector3 postStall = getCoefficientsStall(paddedStallHigh, adjustedConfig, flapAngle, flapFraction, aspectRatio);
                     float lerpFactor = (alpha - adjustedConfig.stallAngleHigh) / (paddedStallHigh - adjustedConfig.stallAngleHigh);
                     coeffs = Vector3.Lerp(preStall, postStall, lerpFactor);
                 }
                 else
                 {
                     Vector3 preStall = getCoefficientsLowAoA(adjustedConfig.stallAngleLow, adjustedConfig, flapAngle, aspectRatio);
-                    Vector3 postStall = getCoefficientsStall(paddedStallLow, adjustedConfig, flapAngle, aspectRatio);
+                    Vector3 postStall = getCoefficientsStall(paddedStallLow, adjustedConfig, flapAngle, flapFraction, aspectRatio);
                     float lerpFactor = (alpha - adjustedConfig.stallAngleLow) / (paddedStallLow - adjustedConfig.stallAngleLow);
                     coeffs = Vector3.Lerp(preStall, postStall, lerpFactor);
                 }
