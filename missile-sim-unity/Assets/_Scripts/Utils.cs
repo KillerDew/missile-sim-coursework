@@ -1,8 +1,39 @@
 using System;
 using UnityEngine;
 
+
+public struct biVector3
+{
+    Vector3 p;
+    Vector3 q;
+    public biVector3(Vector3 force, Vector3 torque)
+    {
+        this.p = force;
+        this.q = torque;
+    }
+
+    public static biVector3 zero = new biVector3(Vector3.zero, Vector3.zero);
+
+    public static biVector3 operator +(biVector3 a, biVector3 b)
+    {
+        return new biVector3(a.p + b.p, a.q + b.q);
+    }
+    public static biVector3 operator *(biVector3 a, float f)
+    {
+        return new biVector3(a.p * f, a.q * f);
+    }
+    public static biVector3 operator *(float f, biVector3 a)
+    {
+        return new biVector3(a.p * f, a.q * f);
+    }
+    public static biVector3 operator /(biVector3 a, float f)
+    {
+        return new biVector3(a.p / f, a.q / f);
+    }
+
+}
 public static class Utils
-{   
+{
     /*
     public static bool isAllDigits(string s)
     {
