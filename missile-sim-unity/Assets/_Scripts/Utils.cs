@@ -34,6 +34,12 @@ public struct biVector3
 }
 public static class Utils
 {
+
+    public static float getAirDensityAtAltitude(float altitude)
+    {
+        return 1.225f; // Placeholder: returns sea level air density
+    }
+
     /*
     public static bool isAllDigits(string s)
     {

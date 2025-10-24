@@ -636,13 +636,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675929628}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08234935, y: 0.0009566601, z: 0.01157685, w: 0.9965359}
-  m_LocalPosition: {x: 0.8230367, y: 2.584816, z: -8.42191}
-  m_LocalScale: {x: 1, y: 17.140255, z: 0.97309965}
+  m_LocalRotation: {x: 0.19422719, y: 0.0018153255, z: 0.01147359, w: 0.98088783}
+  m_LocalPosition: {x: -0.06, y: 53.90922, z: -7.3892155}
+  m_LocalScale: {x: 1, y: 17.140259, z: 0.9730998}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 767648394}
-  m_LocalEulerAnglesHint: {x: 9.448, y: 0, z: 0}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 20.185, y: 0.489, z: 1.418}
 --- !u!114 &675929632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,6 +696,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 767648394}
+  - component: {fileID: 767648396}
+  - component: {fileID: 767648395}
   m_Layer: 0
   m_Name: Object
   m_TagString: Untagged
@@ -717,9 +719,49 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 463142945}
-  - {fileID: 675929631}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &767648395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767648393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700705adbac789d4e870647f587e355a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aircraft
+  aeroSurfaces:
+  - {fileID: 463142941}
+--- !u!54 &767648396
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767648393}
+  serializedVersion: 5
+  m_Mass: 20
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &967151616
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,11 +806,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b629a8ca6ddf8254688e5b1ae4dc3a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AeroSurface
-  width: 1
-  height: 2
+  width: 0.178
+  height: 7.3
   flapFraction: 0
   absMaxFlapAngle: 0.2617994
-  airfoilConfig: {fileID: 0}
+  airfoilConfig: {fileID: 11400000, guid: 9ecc59e8671e14b4bb67484fa15f0389, type: 2}
 --- !u!1 &1235864613
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,11 +855,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b629a8ca6ddf8254688e5b1ae4dc3a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AeroSurface
-  width: 1
-  height: 2
+  width: 0.178
+  height: 7.3
   flapFraction: 0
   absMaxFlapAngle: 0.2617994
-  airfoilConfig: {fileID: 0}
+  airfoilConfig: {fileID: 11400000, guid: 9ecc59e8671e14b4bb67484fa15f0389, type: 2}
 --- !u!1 &1658607516
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,6 +981,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2141996285}
+  - component: {fileID: 2141996287}
+  - component: {fileID: 2141996286}
   m_Layer: 0
   m_Name: Simple Missile
   m_TagString: Untagged
@@ -954,14 +998,56 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141996284}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalRotation: {x: 0.019281797, y: -0, z: -0, w: 0.99981415}
+  m_LocalPosition: {x: 0, y: 49.726803, z: -0.1450882}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 639208483}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 2.21, y: 0, z: 0}
+--- !u!114 &2141996286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141996284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700705adbac789d4e870647f587e355a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aircraft
+  aeroSurfaces:
+  - {fileID: 967151618}
+  - {fileID: 1235864615}
+--- !u!54 &2141996287
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141996284}
+  serializedVersion: 5
+  m_Mass: 60
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -970,3 +1056,4 @@ SceneRoots:
   - {fileID: 16564141}
   - {fileID: 767648394}
   - {fileID: 2141996285}
+  - {fileID: 675929631}

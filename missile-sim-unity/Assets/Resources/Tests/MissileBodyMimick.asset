@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91e98b9e79597b649a57f826538f227b, type: 3}
   m_Name: MissileBodyMimick
   m_EditorClassIdentifier: Assembly-CSharp::AirfoilConfig
-  skinDrag: 0.075
+  skinDrag: 0.05
   zeroLiftAoa_deg: 0
-  liftSlope: 1.5707964
-  stallHigh_deg: 0.8727
-  stallLow_deg: -0.8727
+  liftSlope: 1
+  stallHigh_deg: 0.872665
+  stallLow_deg: -0.872665

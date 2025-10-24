@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AirfoilConfig
   skinDrag: 0.02
   zeroLiftAoa_deg: 0
-  liftSlope: 3.7699113
+  liftSlope: 6.2831855
   stallHigh_deg: 1.8849556
   stallLow_deg: -1.884956

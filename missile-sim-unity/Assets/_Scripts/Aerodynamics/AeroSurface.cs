@@ -71,18 +71,17 @@ public class AeroSurface : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // draw in the object's local space so the matrix handles position/rotation/scale
-        Gizmos.matrix = transform.localToWorldMatrix;
+        // draw using position+rotation only so sizes are in world units (global scale)
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
 
-        // sizes in local space (the matrix will apply the lossyScale)
+        // sizes in world space
         float nonFlappedHeight = height * (1 - flapFraction);
-        // center offset along local +X (right) for the non-flapped section
-        Vector3 offsetNoFlap = new Vector3((height / 2f - nonFlappedHeight / 2f), 0f, 0f);
+        Vector3 offsetNoFlap = Vector3.right * (height / 2f - nonFlappedHeight / 2f);
         Gizmos.color = new Color(110f / 255f, 186f / 255f, 212f / 255f, 60f / 255f);
         Gizmos.DrawCube(offsetNoFlap, new Vector3(nonFlappedHeight, 0.1f, width));
 
         float flappedHeight = height * flapFraction;
-        Vector3 offsetFlap = new Vector3((height / 2f - flappedHeight / 2f), 0f, 0f);
+        Vector3 offsetFlap = Vector3.right * (height / 2f - flappedHeight / 2f);
         Gizmos.color = new Color(235f / 255f, 129f / 255f, 73f / 255f, 120f / 255f);
         Gizmos.DrawCube(-offsetFlap, new Vector3(flappedHeight, 0.1f, width));
     }
