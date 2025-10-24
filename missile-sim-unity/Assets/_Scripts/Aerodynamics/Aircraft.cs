@@ -24,7 +24,7 @@ public class Aircraft : MonoBehaviour
 
     void Start()
     {
-        RB.linearVelocity = new(0, 40, 0);
+        RB.linearVelocity = transform.forward * 40f; // Initial velocity for testing
     }
 
     void FixedUpdate()
@@ -44,6 +44,7 @@ public class Aircraft : MonoBehaviour
         RB.AddForce(currentForceAndTorque.p);
         RB.AddTorque(currentForceAndTorque.q);
 
+        RB.AddForce(transform.forward * 1000f, ForceMode.Force);
         // TODO : Thrust forces
     }
 
@@ -98,6 +99,6 @@ public class Aircraft : MonoBehaviour
             Gizmos.DrawLine(transform.position, transform.position + RB.linearVelocity.normalized * 2f);
         }
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + -transform.up * 2f);
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 5f);
     }
 }
