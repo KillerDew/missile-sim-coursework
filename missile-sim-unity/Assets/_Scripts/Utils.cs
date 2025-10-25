@@ -37,7 +37,9 @@ public static class Utils
 
     public static float getAirDensityAtAltitude(float altitude)
     {
-        return 1.225f; // Placeholder: returns sea level air density
+        const float densitySeaLevel = 1.225f; // kg/m^3
+        const float scaleHeight = 10400f; // meters
+        return densitySeaLevel * Mathf.Exp(-altitude / scaleHeight); // Exponential decrease of air density with altitude
     }
 
     /*
