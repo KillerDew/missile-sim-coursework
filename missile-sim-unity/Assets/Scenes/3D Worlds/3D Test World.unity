@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 16564141}
+  - component: {fileID: 16564142}
   m_Layer: 0
   m_Name: Environment
   m_TagString: Untagged
@@ -151,6 +152,22 @@ Transform:
   - {fileID: 1658607517}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &16564142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16564140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5a7366acb7a1d4388a06a4eccae6b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  windLayers:
+  - referenceAltitude: 100
+    angle: 0
+    speed: 10
 --- !u!1 &239408138
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,6 +275,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 239408138}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &251115404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 251115405}
+  m_Layer: 0
+  m_Name: RocketMotor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &251115405
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251115404}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -3.652}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2141996285}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &251976824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,15 +1526,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141996284}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 100, z: -0.1450882}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 639208483}
   - {fileID: 1180449731}
+  - {fileID: 251115405}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &2141996286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,7 +1563,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141996284}
   serializedVersion: 5
-  m_Mass: 60
+  m_Mass: 161.5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1546,23 +1595,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rollPID:
-    pGain: 0.1
+    pGain: 0.01
     iGain: 0
-    dGain: 1
-    outputMax: 5
-    outputMin: -5
+    dGain: 0.1
+    maxAcceptedError: 0.2
+    outputMax: 1
+    outputMin: -1
     integralLimit: 3
   pitchPID:
-    pGain: 3
-    iGain: 1
+    pGain: 0.3
+    iGain: 0.05
     dGain: 0.5
+    maxAcceptedError: 0.1
     outputMax: 5
     outputMin: -5
     integralLimit: 3
   yawPID:
-    pGain: 3
-    iGain: 1
+    pGain: 0.3
+    iGain: 0.05
     dGain: 0.5
+    maxAcceptedError: 0.1
     outputMax: 5
     outputMin: -5
     integralLimit: 3
@@ -1571,8 +1623,46 @@ MonoBehaviour:
   fin3: {fileID: 239408139}
   fin4: {fileID: 955123712}
   rollTarget: 90
-  pitchTarget: 0
+  pitchTarget: -90
   yawTarget: 0
+  motor:
+    source: {fileID: 251115405}
+    direction: {x: 0, y: 0, z: 1}
+    thrust: 0
+    thrustCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 166000
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 6
+        value: 150000
+        inSlope: -7999.9995
+        outSlope: -7999.9995
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 8
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    burnTime: 8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

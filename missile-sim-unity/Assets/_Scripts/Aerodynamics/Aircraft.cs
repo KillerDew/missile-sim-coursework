@@ -15,6 +15,16 @@ public class Aircraft : MonoBehaviour
 
     float airDensity;
 
+    Queue<offsetForce> additionalForces = new Queue<offsetForce>();
+
+    void addOffsetForce(Vector3 force, Vector3 position)
+    {
+        additionalForces.Enqueue(new offsetForce(force, position));
+    }
+    public void addOffsetForce(offsetForce oforce)
+    {
+        additionalForces.Enqueue(oforce);
+    }
 
     void Awake()
     {
@@ -44,8 +54,14 @@ public class Aircraft : MonoBehaviour
         RB.AddForce(currentForceAndTorque.p);
         RB.AddTorque(currentForceAndTorque.q);
 
-        //RB.AddForce(transform.forward * 1000f, ForceMode.Force);
-        // TODO : Thrust forces
+        while (additionalForces.Count > 0) // Apply any additional offset forces queued this frame
+        {
+            offsetForce oforce = additionalForces.Dequeue();
+            biVector3 resForceAndTorque = oforce.resultantForceAndTorque(RB.worldCenterOfMass);
+            RB.AddForce(resForceAndTorque.p);
+            RB.AddTorque(resForceAndTorque.q);
+        }
+        print(RB.linearVelocity.magnitude);
     }
 
 

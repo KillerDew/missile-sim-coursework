@@ -1,6 +1,7 @@
 using UnityEditor.MPE;
 using UnityEngine;
 
+[RequireComponent(typeof(Aircraft))]
 public class MissileController : MonoBehaviour
 {
     [SerializeField]
@@ -22,6 +23,15 @@ public class MissileController : MonoBehaviour
     float yawControl = 0f;
 
     private float[] finCmds = new float[4];
+
+    public SolidRocketMotor motor;
+    Aircraft aircraftScript;
+
+    void Awake()
+    {
+        aircraftScript = GetComponent<Aircraft>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,6 +56,12 @@ public class MissileController : MonoBehaviour
         fin2.localEulerAngles = new Vector3(fin2.localEulerAngles.x, fin2.localEulerAngles.y, 90 + finCmds[1]);
         fin3.localEulerAngles = new Vector3(fin3.localEulerAngles.x, fin3.localEulerAngles.y, 90 + finCmds[2]);
         fin4.localEulerAngles = new Vector3(fin4.localEulerAngles.x, fin4.localEulerAngles.y, 90 + finCmds[3]);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            motor.ignite();
+        }
+        aircraftScript.addOffsetForce(motor.getThrustForce(transform));
     }
 
     public float getPitch()
@@ -53,7 +69,8 @@ public class MissileController : MonoBehaviour
         if (transform.eulerAngles.x > 180f)
         {
             return transform.eulerAngles.x - 360f;
-        } else if (transform.eulerAngles.x < -180f)
+        }
+        else if (transform.eulerAngles.x < -180f)
         {
             return transform.eulerAngles.x + 360f;
         }
@@ -64,7 +81,8 @@ public class MissileController : MonoBehaviour
         if (transform.eulerAngles.y > 180f)
         {
             return transform.eulerAngles.y - 360f;
-        } else if (transform.eulerAngles.y < -180f)
+        }
+        else if (transform.eulerAngles.y < -180f)
         {
             return transform.eulerAngles.y + 360f;
         }
@@ -75,11 +93,22 @@ public class MissileController : MonoBehaviour
         if (transform.eulerAngles.z > 180f)
         {
             return transform.eulerAngles.z - 360f;
-        } else if (transform.eulerAngles.z < -180f)
+        }
+        else if (transform.eulerAngles.z < -180f)
         {
             return transform.eulerAngles.z + 360f;
         }
         else return transform.eulerAngles.z;
     }
-    
+
+    void OnDrawGizmos()
+    {
+        if (motor != null && motor.source != null && motor.direction != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(motor.source.position, 0.2f);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(motor.source.position, -transform.TransformDirection(motor.direction).normalized);
+        }
+    }
 }

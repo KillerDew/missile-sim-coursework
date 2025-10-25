@@ -7,6 +7,7 @@ public class PIDController
     public float pGain;
     public float iGain;
     public float dGain;
+    public float maxAcceptedError = 0.05f;
 
     // Safety Limits
     public float outputMax = 10f; // Maximum output for the controller
@@ -72,7 +73,13 @@ public class PIDController
         // 7. Store current PV for next iteration's derivative calculation
         lastProcessVariable = processVariable;
 
-        return output;
+        if (Mathf.Abs(error) < maxAcceptedError)
+        {
+            return 0;
+        }else
+        {
+            return output;
+        }
     }
 
     /// <summary>
