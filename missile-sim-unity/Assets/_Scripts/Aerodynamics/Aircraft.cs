@@ -15,7 +15,6 @@ public class Aircraft : MonoBehaviour
 
     float airDensity;
 
-    Vector3 globalWind = Vector3.zero; // Placeholder for wind implementation
 
     void Awake()
     {
@@ -24,11 +23,12 @@ public class Aircraft : MonoBehaviour
 
     void Start()
     {
-        RB.linearVelocity = transform.forward * 40f; // Initial velocity for testing
+        
     }
 
     void FixedUpdate()
     {
+        Vector3 globalWind = Utils.getWindAtAltitude(transform.position.y);
         biVector3 forceAndTorqueThisFrame = calculateAerodynamicForces(
             RB.linearVelocity, RB.angularVelocity, globalWind, RB.worldCenterOfMass
         );
@@ -44,7 +44,7 @@ public class Aircraft : MonoBehaviour
         RB.AddForce(currentForceAndTorque.p);
         RB.AddTorque(currentForceAndTorque.q);
 
-        RB.AddForce(transform.forward * 1000f, ForceMode.Force);
+        //RB.AddForce(transform.forward * 1000f, ForceMode.Force);
         // TODO : Thrust forces
     }
 

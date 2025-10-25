@@ -1,7 +1,22 @@
 using System;
 using UnityEngine;
 
-
+public struct offsetForce
+{
+    public Vector3 force;
+    public Vector3 position;
+    public offsetForce(Vector3 force, Vector3 pos)
+    {
+        this.force = force;
+        this.position = pos;
+    }
+    public biVector3 resultantForceAndTorque(Vector3 COM)
+    {
+        Vector3 relativePosition = position - COM;
+        Vector3 torque = Vector3.Cross(relativePosition, force);
+        return new biVector3(force, torque);
+    }
+}
 public struct biVector3
 {
     public Vector3 p;
@@ -34,12 +49,36 @@ public struct biVector3
 }
 public static class Utils
 {
+    static Wind _windInstance;
+    public static Wind windInstance
+    {
+        get
+        {
+            if (!_windInstance)
+            {
+                _windInstance = GameObject.FindFirstObjectByType<Wind>();
+            }
+            return _windInstance;
+        }
+    }
 
     public static float getAirDensityAtAltitude(float altitude)
     {
         const float densitySeaLevel = 1.225f; // kg/m^3
         const float scaleHeight = 10400f; // meters
-        return densitySeaLevel * Mathf.Exp(-altitude / scaleHeight); // Exponential decrease of air density with altitude
+        return densitySeaLevel * Mathf.Exp(-altitude / scaleHeight); // Exponential decrease of air density with altitude (https://en.wikipedia.org/wiki/Density_of_air)
+    }
+
+    public static Vector3 getWindAtAltitude(float altitude)
+    {
+        if (windInstance != null)
+        {
+            return windInstance.getWindAtAltitude(altitude);
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 
     /*
