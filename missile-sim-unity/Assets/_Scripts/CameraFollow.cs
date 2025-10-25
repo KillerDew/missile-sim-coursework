@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    Vector3 offset = new Vector3(0f, 5f, -10f);
-    Vector3 rotationoffset = new Vector3(20f, 0f, 0f);
+    public Vector3 offset = new Vector3(0f, 5f, -10f);
+    public Vector3 rotationoffset = new Vector3(20f, 0f, 0f);
     public Transform target;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 239408141}
   - component: {fileID: 239408140}
   m_Layer: 0
-  m_Name: Fin 1
+  m_Name: Fin 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 251976827}
   - component: {fileID: 251976826}
   m_Layer: 0
-  m_Name: Fin 3
+  m_Name: Fin 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,13 +285,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251976824}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: -0.5}
   m_LocalPosition: {x: -0.215, y: -3.177, z: 0}
   m_LocalScale: {x: 0.70247, y: 0.09821859, z: 0.4449666}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1180449731}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 90}
 --- !u!114 &251976826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,6 +914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2802731d94b5c5643bd93f8cb48e0db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
+  offset: {x: 0, y: 5, z: -10}
+  rotationoffset: {x: 20, y: 0, z: 0}
   target: {fileID: 2141996285}
 --- !u!1 &767648393
 GameObject:
@@ -1175,9 +1177,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 239408139}
   - {fileID: 1602942773}
   - {fileID: 251976825}
+  - {fileID: 239408139}
   - {fileID: 955123712}
   m_Father: {fileID: 2141996285}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -1243,7 +1245,7 @@ GameObject:
   - component: {fileID: 1602942775}
   - component: {fileID: 1602942774}
   m_Layer: 0
-  m_Name: Fin 2
+  m_Name: Fin 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1460,6 +1462,7 @@ GameObject:
   - component: {fileID: 2141996285}
   - component: {fileID: 2141996287}
   - component: {fileID: 2141996286}
+  - component: {fileID: 2141996288}
   m_Layer: 0
   m_Name: Simple Missile
   m_TagString: Untagged
@@ -1475,15 +1478,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141996284}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.38872975, y: -0, z: -0, w: 0.92135185}
-  m_LocalPosition: {x: 0, y: 49.726803, z: -0.1450882}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 100, z: -0.1450882}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 639208483}
   - {fileID: 1180449731}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -45.751, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 --- !u!114 &2141996286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1530,6 +1533,46 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2141996288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141996284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc43862350e09ec41812d9ffbdae4a5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  rollPID:
+    pGain: 0.1
+    iGain: 0
+    dGain: 1
+    outputMax: 5
+    outputMin: -5
+    integralLimit: 3
+  pitchPID:
+    pGain: 3
+    iGain: 1
+    dGain: 0.5
+    outputMax: 5
+    outputMin: -5
+    integralLimit: 3
+  yawPID:
+    pGain: 3
+    iGain: 1
+    dGain: 0.5
+    outputMax: 5
+    outputMin: -5
+    integralLimit: 3
+  fin1: {fileID: 1602942773}
+  fin2: {fileID: 251976825}
+  fin3: {fileID: 239408139}
+  fin4: {fileID: 955123712}
+  rollTarget: 90
+  pitchTarget: 0
+  yawTarget: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
