@@ -6,6 +6,7 @@ public class Aircraft : MonoBehaviour
 {
     public const float PREDICTION_TIMESTEP_FRACTION = 0.5f;
 
+    [SerializeField]
     Rigidbody RB;
     [SerializeField]
     List<AeroSurface> aeroSurfaces = null;
@@ -28,7 +29,7 @@ public class Aircraft : MonoBehaviour
 
     void Awake()
     {
-        RB = GetComponent<Rigidbody>();
+        if (RB == null) RB = GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -116,5 +117,8 @@ public class Aircraft : MonoBehaviour
         }
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * 5f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(RB.worldCenterOfMass, 0.1f);
     }
 }

@@ -42,7 +42,7 @@ public class MissileController : MonoBehaviour
     void FixedUpdate()
     {
 
-        rollControl = rollPID.Update(transform.eulerAngles.z, rollTarget, Time.fixedDeltaTime);
+        rollControl = 0f; //rollPID.Update(transform.eulerAngles.z, rollTarget, Time.fixedDeltaTime);
         pitchControl = pitchPID.Update(getPitch(), pitchTarget, Time.fixedDeltaTime);
         yawControl = yawPID.Update(getYaw(), yawTarget, Time.fixedDeltaTime);
         //print(getYaw() + " | " + yawTarget + " | " + yawControl);
