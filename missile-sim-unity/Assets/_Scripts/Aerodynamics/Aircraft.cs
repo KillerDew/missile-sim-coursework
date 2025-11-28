@@ -18,6 +18,22 @@ public class Aircraft : MonoBehaviour
 
     Queue<offsetForce> additionalForces = new Queue<offsetForce>();
 
+    public Vector3 getVelocityWorld()
+    {
+        return RB.linearVelocity;
+    }
+    public Vector3 getAngularVelWorld()
+    {
+        return RB.angularVelocity;
+    }
+
+    Vector3 acceleration;
+
+    public Vector3 getAccelWorld()
+    {
+        return acceleration;
+    }
+
     void addOffsetForce(Vector3 force, Vector3 position)
     {
         additionalForces.Enqueue(new offsetForce(force, position));
@@ -34,8 +50,9 @@ public class Aircraft : MonoBehaviour
 
     void Start()
     {
-        
+        prevVel = Vector3.zero;
     }
+    Vector3 prevVel;
 
     void FixedUpdate()
     {
@@ -63,6 +80,9 @@ public class Aircraft : MonoBehaviour
             RB.AddTorque(resForceAndTorque.q);
         }
         print(RB.linearVelocity.magnitude);
+
+        acceleration = (RB.linearVelocity - prevVel) / Time.fixedDeltaTime;
+        prevVel = RB.linearVelocity;
     }
 
 

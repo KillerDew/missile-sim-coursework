@@ -16,7 +16,7 @@ public class PIDController
 
     // State Variables
     private float integralSum = 0f;
-    private float lastProcessVariable = 0f; // Used for derivative calculation
+    private float lastError = 0f; // Used for derivative calculation
 
     // Constructor
     public PIDController(float p, float i, float d, float outMax, float outMin, float iLimit)
@@ -29,7 +29,7 @@ public class PIDController
         integralLimit = iLimit;
         // Initialize state variables to zero on creation
         integralSum = 0f;
-        lastProcessVariable = 0f;
+        lastError = 0f;
     }
 
     /// <summary>
@@ -39,10 +39,8 @@ public class PIDController
     /// <param name="processVariable">The current measured value (e.g., position, speed).</param>
     /// <param name="deltaTime">The time elapsed since the last call (e.g., Time.fixedDeltaTime).</param>
     /// <returns>The calculated control signal (e.g., force, torque).</returns>
-    public float Update(float setpoint, float processVariable, float deltaTime)
+    public float Update(float error, float deltaTime)
     {
-        // 1. Calculate Error
-        float error = setpoint - processVariable;
 
         // 2. Proportional Term
         float proportional = pGain * error;
@@ -60,8 +58,8 @@ public class PIDController
         // Derivative Kick: A sudden, large spike in output when the setpoint changes
         // if the derivative is calculated based on the error's change.
         // Solution: Calculate the derivative based on the *rate of change of the process variable (PV)*.
-        float pvRateOfChange = (processVariable - lastProcessVariable) / deltaTime;
-        float derivative = -dGain * pvRateOfChange; // Negative sign because we use the PV change
+        float pvRateOfChange = (error - lastError) / deltaTime;
+        float derivative = dGain * pvRateOfChange; // Negative sign because we use the PV change
 
         // 5. Total Output
         float output = proportional + integral + derivative;
@@ -71,7 +69,7 @@ public class PIDController
         output = Mathf.Clamp(output, outputMin, outputMax);
 
         // 7. Store current PV for next iteration's derivative calculation
-        lastProcessVariable = processVariable;
+        lastError = error;
 
         if (Mathf.Abs(error) < maxAcceptedError)
         {
@@ -88,6 +86,6 @@ public class PIDController
     public void Reset()
     {
         integralSum = 0f;
-        lastProcessVariable = 0f;
+        lastError = 0f;
     }
 }

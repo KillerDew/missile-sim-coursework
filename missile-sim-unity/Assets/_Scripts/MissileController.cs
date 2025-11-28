@@ -25,7 +25,7 @@ public class MissileController : MonoBehaviour
     private float[] finCmds = new float[4];
 
     public SolidRocketMotor motor;
-    Aircraft aircraftScript;
+    public Aircraft aircraftScript {get; private set;}
 
     void Awake()
     {
@@ -37,14 +37,14 @@ public class MissileController : MonoBehaviour
     {
         Time.timeScale = 0.5f;
     }
-
+    
     // Update is called once per frame
     void FixedUpdate()
     {
 
-        rollControl = 0f; //rollPID.Update(transform.eulerAngles.z, rollTarget, Time.fixedDeltaTime);
-        pitchControl = pitchPID.Update(getPitch(), pitchTarget, Time.fixedDeltaTime);
-        yawControl = yawPID.Update(getYaw(), yawTarget, Time.fixedDeltaTime);
+        rollControl = rollPID.Update(rollTarget-getRoll(), Time.fixedDeltaTime);
+        pitchControl = pitchPID.Update((pitchTarget-getPitch()), Time.fixedDeltaTime);
+        yawControl = yawPID.Update((yawTarget-getYaw()), Time.fixedDeltaTime);
         //print(getYaw() + " | " + yawTarget + " | " + yawControl);
 
         finCmds[0] = Mathf.Clamp(-Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.z) * pitchControl - Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.z) * yawControl + rollControl, -10, 10);
