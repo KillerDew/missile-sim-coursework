@@ -1605,7 +1605,7 @@ MonoBehaviour:
     outputMin: -1
     integralLimit: 3
   pitchPID:
-    pGain: 0.3
+    pGain: 0.03
     iGain: 0.05
     dGain: 0.5
     maxAcceptedError: 0.1
@@ -1613,7 +1613,7 @@ MonoBehaviour:
     outputMin: -5
     integralLimit: 3
   yawPID:
-    pGain: 0.3
+    pGain: 0.03
     iGain: 0.05
     dGain: 0.5
     maxAcceptedError: 0.1

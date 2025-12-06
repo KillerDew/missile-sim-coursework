@@ -42,8 +42,14 @@ public class Aircraft : MonoBehaviour
         Vector3 globalWind = Utils.getWindAtAltitude(transform.position.y);
         biVector3 forceAndTorqueThisFrame = calculateAerodynamicForces(
             RB.linearVelocity, RB.angularVelocity, globalWind, RB.worldCenterOfMass
-        );
+            );
 
+        while (additionalForces.Count > 0) // Apply any additional offset forces queued this frame
+        {
+            offsetForce oforce = additionalForces.Dequeue();
+            biVector3 resForceAndTorque = oforce.resultantForceAndTorque(RB.worldCenterOfMass);
+            forceAndTorqueThisFrame += resForceAndTorque;
+        }
         Vector3 velocityPrediction = predictVelocity(forceAndTorqueThisFrame.p + Physics.gravity * RB.mass); // Velocity prediction based on current force, gravity and thrust (not implemented)
         Vector3 angularVelocityPrediction = PredictAngularVelocity(forceAndTorqueThisFrame.q); // Angular velocity prediction based on current torque
         biVector3 forceAndTorquePrediction = calculateAerodynamicForces(
@@ -55,13 +61,6 @@ public class Aircraft : MonoBehaviour
         RB.AddForce(currentForceAndTorque.p);
         RB.AddTorque(currentForceAndTorque.q);
 
-        while (additionalForces.Count > 0) // Apply any additional offset forces queued this frame
-        {
-            offsetForce oforce = additionalForces.Dequeue();
-            biVector3 resForceAndTorque = oforce.resultantForceAndTorque(RB.worldCenterOfMass);
-            RB.AddForce(resForceAndTorque.p);
-            RB.AddTorque(resForceAndTorque.q);
-        }
         print(RB.linearVelocity.magnitude);
     }
 
