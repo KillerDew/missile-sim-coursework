@@ -4,16 +4,22 @@ using UnityEngine;
 
 public struct biVector3
 {
+    // p is force, q is torque
     public Vector3 p;
     public Vector3 q;
+    // Public constructor that takes in force and torque vectors
     public biVector3(Vector3 force, Vector3 torque)
     {
         this.p = force;
         this.q = torque;
     }
 
+    // Static property for zero biVector3 (0 force and 0 torque)
     public static biVector3 zero = new biVector3(Vector3.zero, Vector3.zero);
 
+    // Operator overloads for addition, scalar multiplication, and division
+    // Uses Unity Vector3 operators.
+    // Note that * and / only work to scale the biVector3 (using float).
     public static biVector3 operator +(biVector3 a, biVector3 b)
     {
         return new biVector3(a.p + b.p, a.q + b.q);
