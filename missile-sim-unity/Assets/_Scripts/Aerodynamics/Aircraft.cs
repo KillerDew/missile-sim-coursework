@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Class requires the object to have a rigidbody for physics sim.
 [RequireComponent(typeof(Rigidbody))]
 public class Aircraft : MonoBehaviour
 {
@@ -8,39 +9,45 @@ public class Aircraft : MonoBehaviour
 
     Rigidbody RB;
     [SerializeField]
+    // A LIST of references to aero surfaces, added in the Unity Editor.
+    // Lists are similar to arrays, but more memory efficient.
     List<AeroSurface> aeroSurfaces = null;
 
     biVector3 currentForceAndTorque;
-    Vector3 centreOfMassOffset = Vector3.zero;
 
+    // Air density at the aircraft's current altitude
+    // Placeholder for now, will be calculated based on altitude (weather)
     float airDensity;
 
     Vector3 globalWind = Vector3.zero; // Placeholder for wind implementation
 
     void Awake()
     {
+        // Find objects rigidbody before runtime.
         RB = GetComponent<Rigidbody>();
     }
 
     void Start()
     {
+        //! TEST ONLY: initial upward velocity to see forces in action
         RB.linearVelocity = new(0, 40, 0);
     }
 
     void FixedUpdate()
     {
+        // Calcilate aerodynamic forces based on current state
         biVector3 forceAndTorqueThisFrame = calculateAerodynamicForces(
             RB.linearVelocity, RB.angularVelocity, globalWind, RB.worldCenterOfMass
         );
-
+        // Predict forces for next frame based on Euler integration of current state.
         Vector3 velocityPrediction = predictVelocity(forceAndTorqueThisFrame.p + Physics.gravity * RB.mass); // Velocity prediction based on current force, gravity and thrust (not implemented)
         Vector3 angularVelocityPrediction = PredictAngularVelocity(forceAndTorqueThisFrame.q); // Angular velocity prediction based on current torque
         biVector3 forceAndTorquePrediction = calculateAerodynamicForces(
             velocityPrediction, angularVelocityPrediction, globalWind, RB.worldCenterOfMass
         );
-
+        // Calculate an avergage of current and future forces. This is much more stable.
         currentForceAndTorque = 0.5f * (forceAndTorqueThisFrame + forceAndTorquePrediction); // Average of current and predicted forces and torques avoids instability
-
+        // Apply forces to the rigidbody
         RB.AddForce(currentForceAndTorque.p);
         RB.AddTorque(currentForceAndTorque.q);
 
@@ -51,9 +58,10 @@ public class Aircraft : MonoBehaviour
     private biVector3 calculateAerodynamicForces(Vector3 velocity, Vector3 angularVelocity, Vector3 wind, Vector3 COM)
     {
         biVector3 totalForceAndTorque = biVector3.zero;
-
+        // Calculate air density, currently a placeholder. (will be part of weather)
         airDensity = Utils.getAirDensityAtAltitude(transform.position.y);
 
+        // Loop through each aero surface and sum up force and torque.
         foreach (AeroSurface surface in aeroSurfaces)
         {
             Vector3 relativePosition = surface.transform.position - COM;
@@ -66,7 +74,7 @@ public class Aircraft : MonoBehaviour
 
         return totalForceAndTorque;
     }
-
+    // Euler integration for velocity and angular velocity prediction. (a=F/m)
     private Vector3 predictVelocity(Vector3 force)
     {
         return RB.linearVelocity + Time.fixedDeltaTime * PREDICTION_TIMESTEP_FRACTION * (force / RB.mass);
